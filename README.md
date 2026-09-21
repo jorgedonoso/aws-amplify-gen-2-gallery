@@ -8,15 +8,26 @@ Browse and filter AI-generated profiles using metadata stored in DynamoDB and im
 
 ![Gallery](./docs/demo.png)
 
+## DynamoDB Query Design
+
+The profile data is stored in DynamoDB with a **Global Secondary Index (GSI)** designed around the gallery's primary filters using:
+
+- **Partition key:** `Gender + Ethnicity`
+- **Sort key:** `Age`
+
+This allows the application to efficiently query profiles by gender and ethnicity while using age as the sort key for age-based filtering and ordering.
+
+This index was chosen to match the gallery's most common filtering pattern while avoiding full-table scans as the dataset grows.
+
 ## Tech Stack
 
-* **React + Vite**
-* **TypeScript**
-* **Tailwind CSS**
-* **AWS Amplify Gen 2**
-* **AppSync / Amplify Data**
-* **Amazon DynamoDB**
-* **Amazon S3**
+- **AWS Amplify Gen 2**
+- **AppSync / Amplify Data**
+- **Amazon DynamoDB**
+- **Amazon S3**
+- **React + Vite**
+- **TypeScript**
+- **Tailwind CSS**
 
 ## Architecture
 
@@ -73,14 +84,6 @@ To run the local Amplify backend:
 ```bash
 npx ampx sandbox
 ```
-
-## Future Improvements
-
-The current DynamoDB data model is intentionally simple. Future improvements will include:
-
-* More efficient **partition and sort key** design
-* Additional **secondary indexes**
-* Improved query performance and pagination
 
 ## Author
 
